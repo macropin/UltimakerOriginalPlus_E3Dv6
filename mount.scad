@@ -62,7 +62,7 @@ module mount(){
     difference(){
         union(){
             // main block surrounding heat sink
-            translate([0,0,42.7/2]) cube([30,30,42.7], center=true);
+            translate([-15,0,0]) cube([30,15,46.5]);
             
             // block for Y axis mount
             translate([-25,-15,41.7]) intersection(){
@@ -71,7 +71,6 @@ module mount(){
             }
         }
         // halfing it to make the body
-        translate([0,-15/2-1/2,42.7/2]) cube( [30+1,15+1,42.7+1], center=true);
         group_cut();
         group_bush();
         cube([]);
