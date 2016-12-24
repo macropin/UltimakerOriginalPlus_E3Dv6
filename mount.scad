@@ -65,8 +65,8 @@ module mount(){
             translate([0,0,42.7/2]) cube([30,30,42.7], center=true);
             
             // block for Y axis mount
-            translate([-23,-15,41.7]) intersection(){
-                cube([15,30,12]);
+            translate([-25,-15,41.7]) intersection(){
+                cube([17,30,12]);
                 translate([12,0,12]) rotate([-90,0,0]) cylinder(d=24, h=30, $fn=360);
             }
         }
@@ -95,8 +95,8 @@ module cover(){
 
 module cut_ziptie(){
     difference(){
-        cylinder(d=17, h=4, center=true, $fn=360);
-        cylinder(d=15, h=5, center=true, $fn=360);
+        cylinder(d=18, h=4, center=true, $fn=360);
+        cylinder(d=14, h=5, center=true, $fn=360);
     }
 }
 
@@ -113,13 +113,13 @@ module bush(){
 }
 
 module group_bush(){
-    translate([-16,17,30+6]) union(){
+    translate([-16,17,30+7]) union(){
         translate([35/2-1.5,0,0]) rotate([0,90,0]) bush(); // X-axis bush
         translate([2,-35/2+0.5,18]) rotate([90,0,0]) bush(); // Y-axis bush
     }
 }
 
-//mount();
-cover();
+mount();
+//cover();
 //group_bush();
 //cut_holes();
