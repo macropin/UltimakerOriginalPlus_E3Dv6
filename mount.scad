@@ -29,8 +29,7 @@ module cut_holes(){
             translate([6.4/2,0,(2.5+1)/2]) cube([5,5.5,2.5+1], center=true);
         }
     }
-    
-    
+ 
     // right hot end
     //screw clearance
     translate([-12,-5,42.7-6.5]) rotate([90,0,0]){
@@ -55,17 +54,17 @@ module cut_holes(){
 
 module group_cut(){
     cut_e3dv6();
-    cut_fan_hotend();
+//    cut_fan_hotend();
     cut_holes();
 }
 module mount(){
     difference(){
         union(){
             // main block surrounding heat sink
-            translate([-15,0,0]) cube([30,15,46.5]);
+            translate([-35/2,0,0]) cube([35,15,46.5]);
             
             // block for Y axis mount
-            translate([-25,-15,41.7]) intersection(){
+            translate([-25,-15,43]) intersection(){
                 cube([17,30,12]);
                 translate([12,0,12]) rotate([-90,0,0]) cylinder(d=24, h=30, $fn=360);
             }
@@ -81,13 +80,11 @@ module cover(){
     difference(){
         union(){
             // main block surrounding heat sink
-            translate([0,0,42.7/2]) cube([30,30,42.7], center=true );
+            translate([-35/2,-15,0]) cube([35,15,42.7]);
             
-            // mount for print fant
-            translate([0,-15,-6.25]) cube([35,4,8]);
+            // mount for print fan
+            translate([11,-15,-7.03]) cube([22,4,5.02]);
         }
-        // halfing it to make the cover
-        translate([0,+15/2+1/2,42.7/2]) cube( [30+1,15+1,42.7+1], center=true );
         group_cut();
     }
 }
@@ -118,7 +115,44 @@ module group_bush(){
     }
 }
 
+module duct_print_cooling(){
+    difference(){
+    
+        union(){
+        
+            // 5015 print fan mount
+            translate([-30.75,1,10])cylinder(r=5.8, h=5, $fn=6);
+    
+            // Print fan nozzle mount - right
+                translate([-12.5,12,9]) cylinder(r=7.5/2, h=6, $fn=6);
+        
+            // hook
+            translate([16.5,-2,8]) cube([1,18,7]);
+            difference() {
+                translate([16.5,12,8]) cube([4,5,7]);
+                translate([20.5,14.3,5]) rotate([0,0,45]) cube([5,5,15]);
+            }
+        
+            // Print colling airway
+            translate([-9.5,-1,13])rotate([0,0,0]) cube([27,10,2]);
+            difference(){
+                translate([-9.5,7.6,13.5])rotate([-45,0,0]) cube([27,7,2]);
+                translate([-10.5,13,5])rotate([0,0,0]) cube([29,7,12]);
+                translate([-10.5,9,7])rotate([0,0,0]) cube([29,7,2]);
+            }    
+        
+            translate([-14.5,-1,9])rotate([0,0,0]) cube([1+5,14,6]);  
+        }
+    
+        // Fan nozzle mount hole
+        translate([-12.5,12,5])cylinder(r=3/2, h=12, $fn=30);
+        // 5015 print fan bottom right mount hole 
+        translate([-30.75,1,0])cylinder(r=1.65, h=20, $fn=30);
+    }
+}
+
+translate([0,0,-1]) rotate([-90,0,180]) duct_print_cooling();
 mount();
-//cover();
+cover();
 //group_bush();
 //cut_holes();
