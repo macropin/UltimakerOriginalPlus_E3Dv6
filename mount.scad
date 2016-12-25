@@ -5,7 +5,7 @@ module cut_fan_hotend(){
 
 module cut_e3dv6(){
     // cut for E3D V6 heat sink
-    translate([0,0,-1]) cylinder(d=22, h=26+1, $fn=360);
+    translate([0,0,-2]) cylinder(d=22, h=26+2, $fn=360);
     cylinder(d=12, h=46, $fn=360);
     translate([0,0,26]) cylinder(d=16, h=7, $fn=360);
     translate([0,0,39]) cylinder(d=16, h=7+1, $fn=360);
@@ -61,7 +61,7 @@ module mount(){
     difference(){
         union(){
             // main block surrounding heat sink
-            translate([-35/2,0,0]) cube([35,15,46.5]);
+            translate([-35/2,0,-1]) cube([35,15,47.5]);
             
             // block for Y axis mount
             translate([-25,-15,43]) intersection(){
@@ -80,7 +80,7 @@ module cover(){
     difference(){
         union(){
             // main block surrounding heat sink
-            translate([-35/2,-15,0]) cube([35,15,42.7]);
+            translate([-35/2,-15,-1]) cube([35,15,43.7]);
             
             // mount for print fan
             translate([11,-15,-7.03]) cube([22,4,5.02]);
@@ -103,7 +103,7 @@ module pair_cut_ziptie(){
 }
 
 module bush(){
-    color("orange") cylinder(d=12.2, h=35, center=true, $fn=360);
+    color("orange") cylinder(d=12.2, h=35+1, center=true, $fn=360);
     color("yellow") cylinder(d=6.2, h=100, center=true, $fn=360);
     pair_cut_ziptie();
 }
@@ -134,14 +134,14 @@ module duct_print_cooling(){
             }
         
             // Print colling airway
-            translate([-9.5,-1,13])rotate([0,0,0]) cube([27,10,2]);
+            translate([-9.5,0,13])rotate([0,0,0]) cube([27,9,2]);
             difference(){
                 translate([-9.5,7.6,13.5])rotate([-45,0,0]) cube([27,7,2]);
                 translate([-10.5,13,5])rotate([0,0,0]) cube([29,7,12]);
                 translate([-10.5,9,7])rotate([0,0,0]) cube([29,7,2]);
             }    
         
-            translate([-14.5,-1,9])rotate([0,0,0]) cube([1+5,14,6]);  
+            translate([-14.5,0,9])rotate([0,0,0]) cube([1+5,13,6]);  
         }
     
         // Fan nozzle mount hole
@@ -151,8 +151,8 @@ module duct_print_cooling(){
     }
 }
 
-translate([0,0,-1]) rotate([-90,0,180]) duct_print_cooling();
+//translate([0,0,-1]) rotate([-90,0,180]) duct_print_cooling();
 mount();
-cover();
+//cover();
 //group_bush();
 //cut_holes();
