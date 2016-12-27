@@ -1,3 +1,12 @@
+// E3D V6 mount for Ultimaker Original+
+// from LibreMatter
+// burdickjp@protonmail.com
+
+//XYZ dimensions of mount body
+dimMount=[35,15,47.5];
+//XYZ dimensions of cover body
+dimCover=[dimMount[0],dimMount[1],42.7+1];
+
 //diameter of clearance holes for M3 hardware
 dia_screw_clear= 3.5;
 dia_head_clear= 7;
@@ -41,7 +50,7 @@ module cut_holes(){
 
     // hot end fan holes
     for (y=[-25/2,25/2], z=[5/2,30-5/2]){
-        translate([-35/2+9,y,z]) rotate([0,-90,0]) cylinder(d=2.8, h=10, $fn=360);
+        translate([-dimMount[0]/2+9,y,z]) rotate([0,-90,0]) cylinder(d=2.8, h=10, $fn=360);
     }
 }
 
@@ -54,7 +63,7 @@ module mount(){
     difference(){
         union(){
             // main block surrounding heat sink
-            translate([-35/2,0,-1]) cube([35,15,47.5]);
+            translate([-dimMount[0]/2,0,-1]) cube(dimMount);
             
             // block for Y axis mount
             translate([-25,-15,43]) intersection(){
@@ -73,7 +82,7 @@ module cover(){
     difference(){
         union(){
             // main block surrounding heat sink
-            translate([-35/2,-15,-1]) cube([35,15,43.7]);
+            translate([-dimCover[0]/2,-dimCover[1]/2,-1]) cube(dimCover);
         }
         group_cut();
     }
