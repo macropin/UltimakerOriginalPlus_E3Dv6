@@ -49,8 +49,19 @@ module cut_holes(){
     }
 
     // hot end fan holes
-    for (y=[-25/2,25/2], z=[5/2,30-5/2]){
+    for (y=[-24/2,24/2], z=[5/2,30-5/2]){
         translate([-dimMount[0]/2+9,y,z]) rotate([0,-90,0]) cylinder(d=2.8, h=10, $fn=360);
+    }
+}
+
+module cut_connector(){
+    translate([0,dimMount[1],0]){
+        translate([-dimMount[0]/2-0.5,0,19.05/4]) cube([dimMount[0]+1,12.7,19.05]);
+        translate([0,0,-1]) cube([dimMount[0]/2+1,12.7,31]);
+        for (z=[-12.7,12.7]) translate([0.5,6,31/2-1+z]) rotate([0,-90,0]){
+            cylinder(d=dia_screw_clear, h=dimMount[0]/2+1, $fn=360);
+            translate([0,0,14]) rotate([0,0,90]) cylinder(d=dia_nut_trap, h=height_nut_trap, $fn=6);
+        } 
     }
 }
 
@@ -58,17 +69,18 @@ module group_cut(){
     cut_e3dv6();
     cut_fan_hotend();
     cut_holes();
+    cut_connector();
 }
 module mount(){
     difference(){
         union(){
             // main block surrounding heat sink
-            translate([-dimMount[0]/2,0,-1]) cube(dimMount);
+            translate([-dimMount[0]/2,0,-1]) cube([dimMount[0],dimMount[1]+9,dimMount[2]]);
             
             // block for Y axis mount
-            translate([-25,-15,43]) intersection(){
-                cube([17,30,12]);
-                translate([12,0,12]) rotate([-90,0,0]) cylinder(d=24, h=30, $fn=360);
+            translate([-17,dimMount[1]+9,55]) rotate([90,0,0]){ 
+                cylinder(d=15, h=35, $fn=360);
+                translate([0,-9,0]) cube([7.5,9,35]);
             }
         }
         // halfing it to make the body
@@ -101,29 +113,15 @@ module cover(){
     }
 }
 
-module cut_ziptie(){
-    difference(){
-        cylinder(d=18, h=4, center=true, $fn=360);
-        cylinder(d=14, h=5, center=true, $fn=360);
-    }
-}
-
-module pair_cut_ziptie(){
-    pitch = 24;
-    translate([0,0,pitch/2]) cut_ziptie();
-    translate([0,0,-pitch/2]) cut_ziptie();
-}
-
 module bush(){
-    color("orange") cylinder(d=12.4, h=35+1, center=true, $fn=360);
-    color("yellow") cylinder(d=6.2, h=100, center=true, $fn=360);
-    pair_cut_ziptie();
+    color("orange") cylinder(d=12.5, h=35+1, center=true, $fn=360);
+    color("yellow") cylinder(d=6, h=100, center=true, $fn=360);
 }
 
 module group_bush(){
     translate([-16,17,30+7]) union(){
         translate([35/2-1.5,0,0]) rotate([0,90,0]) bush(); // X-axis bush
-        translate([2,-35/2+0.5,18]) rotate([90,0,0]) bush(); // Y-axis bush
+        translate([2-3,-35/2+7,18]) rotate([90,0,0]) bush(); // Y-axis bush
     }
 }
 
@@ -156,7 +154,7 @@ module duct_print_cooling(){
     }
 }
 
-//mount();
-cover();
+mount();
+//cover();
 //group_bush();
-//cut_holes();
+//cut_connector();
